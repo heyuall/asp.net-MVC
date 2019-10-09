@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CarsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="CarsModelStoreContainer">
+    <EntitySet Name="ProprietaireSet" EntityType="CarsModel.Store.ProprietaireSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VoitureSet" EntityType="CarsModel.Store.VoitureSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ProprietaireVoiture" Association="CarsModel.Store.ProprietaireVoiture">
+      <End Role="Proprietaire" EntitySet="ProprietaireSet" />
+      <End Role="Voiture" EntitySet="VoitureSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ProprietaireSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Numpermis" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Contact_Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Contact_Tel" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Contact_Adresse" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VoitureSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PFiscale" Type="int" Nullable="false" />
+    <Property Name="Marque" Type="int" Nullable="false" />
+    <Property Name="Modele" Type="int" Nullable="false" />
+    <Property Name="Carburant" Type="int" Nullable="false" />
+    <Property Name="Matricule" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Couleur" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ProprietaireId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="ProprietaireVoiture">
+    <End Role="Proprietaire" Type="CarsModel.Store.ProprietaireSet" Multiplicity="1" />
+    <End Role="Voiture" Type="CarsModel.Store.VoitureSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proprietaire">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Voiture">
+        <PropertyRef Name="ProprietaireId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

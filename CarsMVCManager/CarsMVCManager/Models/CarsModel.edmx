@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CarsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="CarsModelStoreContainer">
+    <EntitySet Name="ProprietaireSet" EntityType="CarsModel.Store.ProprietaireSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VoitureSet" EntityType="CarsModel.Store.VoitureSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ProprietaireVoiture" Association="CarsModel.Store.ProprietaireVoiture">
+      <End Role="Proprietaire" EntitySet="ProprietaireSet" />
+      <End Role="Voiture" EntitySet="VoitureSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ProprietaireSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Numpermis" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Contact_Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Contact_Tel" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Contact_Adresse" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VoitureSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PFiscale" Type="int" Nullable="false" />
+    <Property Name="Marque" Type="int" Nullable="false" />
+    <Property Name="Modele" Type="int" Nullable="false" />
+    <Property Name="Carburant" Type="int" Nullable="false" />
+    <Property Name="Matricule" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Couleur" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ProprietaireId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="ProprietaireVoiture">
+    <End Role="Proprietaire" Type="CarsModel.Store.ProprietaireSet" Multiplicity="1" />
+    <End Role="Voiture" Type="CarsModel.Store.VoitureSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proprietaire">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Voiture">
+        <PropertyRef Name="ProprietaireId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="CarsModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="CarsModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ProprietaireSet" EntityType="CarsModel.Proprietaire" />
+          <EntitySet Name="VoitureSet" EntityType="CarsModel.Voiture" />
+          <AssociationSet Name="ProprietaireVoiture" Association="CarsModel.ProprietaireVoiture">
+            <End Role="Proprietaire" EntitySet="ProprietaireSet" />
+            <End Role="Voiture" EntitySet="VoitureSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Proprietaire">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" Nullable="false" />
+          <Property Name="Numpermis" Type="String" Nullable="false" />
+          <Property Name="Contact" Type="CarsModel.ContactInfo" Nullable="false" />
+          <NavigationProperty Name="Voiture" Relationship="CarsModel.ProprietaireVoiture" FromRole="Proprietaire" ToRole="Voiture" />
+        </EntityType>
+        <EntityType Name="Voiture">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" Nullable="false" />
+          <Property Name="PFiscale" Type="Int32" Nullable="false" />
+          <Property Name="Marque" Type="CarsModel.EnumMarque" Nullable="false" />
+          <Property Name="Modele" Type="CarsModel.EnumModele" Nullable="false" />
+          <Property Name="Carburant" Type="CarsModel.EnumCarburant" Nullable="false" />
+          <Property Name="Matricule" Type="String" Nullable="false" />
+          <Property Name="Couleur" Type="String" Nullable="false" />
+          <NavigationProperty Name="Proprietaire" Relationship="CarsModel.ProprietaireVoiture" FromRole="Voiture" ToRole="Proprietaire" />
+          <Property Name="ProprietaireId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EnumType Name="EnumMarque">
+          <Member Name="Volkswagen" Value="1" />
+          <Member Name="Peugeot" Value="2" />
+          <Member Name="Renault" Value="3" />
+        </EnumType>
+        <EnumType Name="EnumCarburant" >
+          <Member Name="Essence" Value="1" />
+          <Member Name="Diesel" Value="2" />
+        </EnumType>
+        <EnumType Name="EnumModele">
+          <Member Name="Polo" Value="1" />
+          <Member Name="Passat" Value="2" />
+          <Member Name="Golf" Value="3" />
+          <Member Name="P301" Value="4" />
+          <Member Name="P407" Value="5" />
+          <Member Name="P508" Value="6" />
+          <Member Name="Megane" Value="7" />
+          <Member Name="Clio" Value="8" />
+          <Member Name="Symbol" Value="9" />
+        </EnumType>
+        <ComplexType Name="ContactInfo">
+          <Property Type="String" Name="Email" Nullable="false" />
+          <Property Type="String" Name="Tel" Nullable="false" />
+          <Property Type="String" Name="Adresse" Nullable="false" />
+        </ComplexType>
+        <Association Name="ProprietaireVoiture">
+          <End Type="CarsModel.Proprietaire" Role="Proprietaire" Multiplicity="1" />
+          <End Type="CarsModel.Voiture" Role="Voiture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proprietaire">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Voiture">
+              <PropertyRef Name="ProprietaireId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CarsModelStoreContainer" CdmEntityContainer="CarsModelContainer">
+    <EntitySetMapping Name="ProprietaireSet">
+      <EntityTypeMapping TypeName="IsTypeOf(CarsModel.Proprietaire)">
+        <MappingFragment StoreEntitySet="ProprietaireSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="Numpermis" ColumnName="Numpermis" />
+          <ComplexProperty Name="Contact" TypeName="CarsModel.ContactInfo">
+            <ScalarProperty Name="Email" ColumnName="Contact_Email" />
+            <ScalarProperty Name="Tel" ColumnName="Contact_Tel" />
+            <ScalarProperty Name="Adresse" ColumnName="Contact_Adresse" />
+          </ComplexProperty>
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VoitureSet">
+      <EntityTypeMapping TypeName="IsTypeOf(CarsModel.Voiture)">
+        <MappingFragment StoreEntitySet="VoitureSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="PFiscale" ColumnName="PFiscale" />
+          <ScalarProperty Name="Marque" ColumnName="Marque" />
+          <ScalarProperty Name="Modele" ColumnName="Modele" />
+          <ScalarProperty Name="Carburant" ColumnName="Carburant" />
+          <ScalarProperty Name="Matricule" ColumnName="Matricule" />
+          <ScalarProperty Name="Couleur" ColumnName="Couleur" />
+          <ScalarProperty Name="ProprietaireId" ColumnName="ProprietaireId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

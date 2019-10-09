@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="CarsModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="CarsModelContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ProprietaireSet" EntityType="CarsModel.Proprietaire" />
+    <EntitySet Name="VoitureSet" EntityType="CarsModel.Voiture" />
+    <AssociationSet Name="ProprietaireVoiture" Association="CarsModel.ProprietaireVoiture">
+      <End Role="Proprietaire" EntitySet="ProprietaireSet" />
+      <End Role="Voiture" EntitySet="VoitureSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Proprietaire">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nom" Type="String" Nullable="false" />
+    <Property Name="Numpermis" Type="String" Nullable="false" />
+    <Property Name="Contact" Type="CarsModel.ContactInfo" Nullable="false" />
+    <NavigationProperty Name="Voiture" Relationship="CarsModel.ProprietaireVoiture" FromRole="Proprietaire" ToRole="Voiture" />
+  </EntityType>
+  <EntityType Name="Voiture">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nom" Type="String" Nullable="false" />
+    <Property Name="PFiscale" Type="Int32" Nullable="false" />
+    <Property Name="Marque" Type="CarsModel.EnumMarque" Nullable="false" />
+    <Property Name="Modele" Type="CarsModel.EnumModele" Nullable="false" />
+    <Property Name="Carburant" Type="CarsModel.EnumCarburant" Nullable="false" />
+    <Property Name="Matricule" Type="String" Nullable="false" />
+    <Property Name="Couleur" Type="String" Nullable="false" />
+    <NavigationProperty Name="Proprietaire" Relationship="CarsModel.ProprietaireVoiture" FromRole="Voiture" ToRole="Proprietaire" />
+    <Property Name="ProprietaireId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EnumType Name="EnumMarque">
+    <Member Name="Volkswagen" Value="1" />
+    <Member Name="Peugeot" Value="2" />
+    <Member Name="Renault" Value="3" />
+  </EnumType>
+  <EnumType Name="EnumCarburant">
+    <Member Name="Essence" Value="1" />
+    <Member Name="Diesel" Value="2" />
+  </EnumType>
+  <EnumType Name="EnumModele">
+    <Member Name="Polo" Value="1" />
+    <Member Name="Passat" Value="2" />
+    <Member Name="Golf" Value="3" />
+    <Member Name="P301" Value="4" />
+    <Member Name="P407" Value="5" />
+    <Member Name="P508" Value="6" />
+    <Member Name="Megane" Value="7" />
+    <Member Name="Clio" Value="8" />
+    <Member Name="Symbol" Value="9" />
+  </EnumType>
+  <ComplexType Name="ContactInfo">
+    <Property Type="String" Name="Email" Nullable="false" />
+    <Property Type="String" Name="Tel" Nullable="false" />
+    <Property Type="String" Name="Adresse" Nullable="false" />
+  </ComplexType>
+  <Association Name="ProprietaireVoiture">
+    <End Type="CarsModel.Proprietaire" Role="Proprietaire" Multiplicity="1" />
+    <End Type="CarsModel.Voiture" Role="Voiture" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proprietaire">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Voiture">
+        <PropertyRef Name="ProprietaireId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

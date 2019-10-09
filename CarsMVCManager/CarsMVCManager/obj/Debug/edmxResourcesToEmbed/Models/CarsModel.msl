@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CarsModelStoreContainer" CdmEntityContainer="CarsModelContainer">
+    <EntitySetMapping Name="ProprietaireSet">
+      <EntityTypeMapping TypeName="IsTypeOf(CarsModel.Proprietaire)">
+        <MappingFragment StoreEntitySet="ProprietaireSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="Numpermis" ColumnName="Numpermis" />
+          <ComplexProperty Name="Contact" TypeName="CarsModel.ContactInfo">
+            <ScalarProperty Name="Email" ColumnName="Contact_Email" />
+            <ScalarProperty Name="Tel" ColumnName="Contact_Tel" />
+            <ScalarProperty Name="Adresse" ColumnName="Contact_Adresse" />
+          </ComplexProperty>
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VoitureSet">
+      <EntityTypeMapping TypeName="IsTypeOf(CarsModel.Voiture)">
+        <MappingFragment StoreEntitySet="VoitureSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="PFiscale" ColumnName="PFiscale" />
+          <ScalarProperty Name="Marque" ColumnName="Marque" />
+          <ScalarProperty Name="Modele" ColumnName="Modele" />
+          <ScalarProperty Name="Carburant" ColumnName="Carburant" />
+          <ScalarProperty Name="Matricule" ColumnName="Matricule" />
+          <ScalarProperty Name="Couleur" ColumnName="Couleur" />
+          <ScalarProperty Name="ProprietaireId" ColumnName="ProprietaireId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
